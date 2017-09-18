@@ -18,7 +18,7 @@ services:
   backend:
     image: angelrb/fortress:latest
     command: yarn dev
-    #entrypoint: /scripts/entrypoint.sh
+    entrypoint: /scripts/entrypoint.sh
     depends_on:
       - mongo
     volumes:
@@ -32,7 +32,7 @@ services:
   frontend:
     image: angelrb/fortress:latest
     command: yarn start
-    #entrypoint: /scripts/entrypoint.sh
+    entrypoint: /scripts/entrypoint.sh
     volumes:
       - ./client:/app
       - ./scripts:/scripts
