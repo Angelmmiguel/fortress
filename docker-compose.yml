@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 
 services:
   nginx:
@@ -15,6 +15,10 @@ services:
       - 8080:8080
   mongo:
     image: bitnami/mongodb:3.4.9-r1
+    healthcheck:
+      test: "/opt/bitnami/mongodb/bin/mongo admin --eval 'db.getUsers()'"
+      interval: 5s
+      retries: 20
   backend:
     image: angelrb/fortress:latest
     command: yarn dev
@@ -22,7 +26,8 @@ services:
     env_file:
      - .env.development
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     volumes:
       - ./:/app
       - ./scripts:/scripts
@@ -35,6 +40,8 @@ services:
     image: angelrb/fortress:latest
     command: yarn start
     entrypoint: /scripts/entrypoint.sh
+    ports:
+      - 3000:3000
     volumes:
       - ./client:/app
       - ./scripts:/scripts
