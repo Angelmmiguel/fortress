@@ -19,6 +19,8 @@ services:
     image: angelrb/fortress:latest
     command: yarn dev
     entrypoint: /scripts/entrypoint.sh
+    env_file:
+     - .env.development
     depends_on:
       - mongo
     volumes:
